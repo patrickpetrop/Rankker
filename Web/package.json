@@ -1,5 +1,6 @@
 {
   "name": "rankker-front",
+  "homepage": "http://patrickpetropoulos.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

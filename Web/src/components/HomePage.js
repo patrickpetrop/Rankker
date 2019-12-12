@@ -8,7 +8,10 @@ class HomePage extends React.Component {
     return (
       <div>
         <p>Home Page</p>
-        <h2>Logged in user is {this.props.user.userName}</h2>
+        <h2>
+          This will be the homepage for the Upcoming Patrick Petropoulos
+          portfolio
+        </h2>
       </div>
     );
   }

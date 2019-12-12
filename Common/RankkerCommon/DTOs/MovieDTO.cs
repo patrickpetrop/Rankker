@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using RankkerCommon.Models;
 
-namespace RankkerCommon.Models
+namespace RankkerCommon.DTOs
 {
-    public class Movie
+    public class MovieDTO
     {
         public long Id { get; set; }
         public string Name { get; set; }
@@ -20,5 +21,6 @@ namespace RankkerCommon.Models
         public string Status { get; set; }
         public DateTime? DateUpdated { get; set; }
 
+        public List<MovieGenre> MovieGenres { get; set; } = new List<MovieGenre>();
     }
 }
