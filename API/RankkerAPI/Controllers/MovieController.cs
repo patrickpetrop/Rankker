@@ -23,6 +23,7 @@ namespace RankkerAPI.Controllers
         }
 
         //Comment to add in info for MovieGenres
+        //Need to add in MovieGenre info when pulling movies
 
         [HttpGet]
         public async Task<IActionResult> CreateInitalMovie()
