@@ -22,6 +22,8 @@ namespace RankkerAPI.Controllers
             _configuration = configuration;
         }
 
+        //Comment to add in info for MovieGenres
+
         [HttpGet]
         public async Task<IActionResult> CreateInitalMovie()
         {
