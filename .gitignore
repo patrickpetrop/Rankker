@@ -329,6 +329,4 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
-API/RankkerAPI/appsettings.json
-
 Web/src/api/apiKeys.js
