@@ -25,28 +25,40 @@ namespace RankkerAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateInitalMovie()
         {
+            var jwtSecretKey = _configuration.GetSection("JwtSecretKey").Value;
+
+
+            var tmdbApiKey = _configuration.GetSection("TMDB_API_Key").Value;
+
+
             var conString = _configuration.GetConnectionString("DefaultConnection");
 
-            var movie = new Movie()
-            {
-                Name = "TempName",
-                Tagline = "tag",
-                Overview = "over",
-                TmdbId = 1234,
-                ImdbId = "tff",
-                TmdbPosterPath = "fdsa",
-                TmdbBackdropPath = "wesdfa",
-                Status = "eee"
-            };
+            return Json(new {jwtSecretKey, tmdbApiKey, conString});
 
-            using (IDbConnection connection = new SqlConnection(conString))
-            {
-                //Remove Dapper from RankkerAPI
-                var insertedId = connection.Query<int>("dbo.Movie_Insert",
-                    movie, commandType: CommandType.StoredProcedure).Single();
-            }
 
-            return new OkObjectResult("Movie Created");
+
+            //            var conString = _configuration.GetConnectionString("DefaultConnection");
+            //
+            //            var movie = new Movie()
+            //            {
+            //                Name = "TempName",
+            //                Tagline = "tag",
+            //                Overview = "over",
+            //                TmdbId = 1234,
+            //                ImdbId = "tff",
+            //                TmdbPosterPath = "fdsa",
+            //                TmdbBackdropPath = "wesdfa",
+            //                Status = "eee"
+            //            };
+            //
+            //            using (IDbConnection connection = new SqlConnection(conString))
+            //            {
+            //                //Remove Dapper from RankkerAPI
+            //                var insertedId = connection.Query<int>("dbo.Movie_Insert",
+            //                    movie, commandType: CommandType.StoredProcedure).Single();
+            //            }
+            //
+            //            return new OkObjectResult("Movie Created");
         }
 
 

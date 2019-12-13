@@ -330,3 +330,5 @@ ASALocalRun/
 .mfractor/
 
 Web/src/api/apiKeys.js
+
+API/RankkerAPI/appsettings.Development.json
