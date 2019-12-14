@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using RankkerAPI.Helpers;
+using RankkerCommon.DataAccess;
+using RankkerCommon.ModelDataAccess;
 using RankkerCommon.Models;
 using RankkerCommon.TMDB;
 
@@ -20,12 +22,14 @@ namespace RankkerAPI.Controllers
     public class MovieController : Controller
     {
         private readonly ILogger<MovieController> _logger;
+        private readonly IMovieGenreData _movieGenreData;
         private readonly string _tmdbApiKey;
         private readonly string _connectionString;
 
-        public MovieController(IConfiguration configuration, ILogger<MovieController> logger)
+        public MovieController(IConfiguration configuration, ILogger<MovieController> logger, IMovieGenreData movieGenreData)
         {
             _logger = logger;
+            _movieGenreData = movieGenreData;
             _tmdbApiKey = GetConfigurationValues.GetTmdbApiKey(configuration);
             _connectionString = GetConfigurationValues.GetConnectionString(configuration);
         }
@@ -35,17 +39,11 @@ namespace RankkerAPI.Controllers
         //Must add it here
 
         [HttpGet("moviegenre")]
-        public async Task<IActionResult> PopulateMovieGenres()
+        public async Task<IActionResult> GetAllMovieGenres()
         {
-            var result = await TmdbMovieService.GetListOfMovieGenres(_tmdbApiKey);
 
-            return new ContentResult
-            {
-                Content = new JObject() { { "message", result.Count > 1 ? "Successful" : "Fail" } }.ToString(),
-                ContentType = "application/json",
-                StatusCode = result.Count > 1 ? (int)200 : (int)404
-            };
         }
+
 
         [HttpGet]
         public async Task<IActionResult> CreateInitalMovie()
