@@ -41,7 +41,9 @@ namespace RankkerAPI.Controllers
         [HttpGet("moviegenre")]
         public async Task<IActionResult> GetAllMovieGenres()
         {
+            var movieGenres = _movieGenreData.GetAllMovieGenres(_connectionString);
 
+            return Json(new {movieGenres});
         }
 
 
