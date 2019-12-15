@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using RankkerCommon.Models;
 
@@ -41,6 +42,46 @@ namespace RankkerCommon.TMDB
             return (JArray)_data["genres"];
         }
 
+        public List<MovieGenre> GetMovieGenres()
+        {
+            var genres = new List<MovieGenre>();
+
+            foreach (var genre in GenreArray())
+            {
+                genres.Add(new MovieGenre()
+                {
+                    Id = Int32.Parse(genre["id"] + ""),
+                    Name = genre["name"] + ""
+                });
+            }
+
+            return genres;
+        }
+
+        public Movie GetMovie()
+        {
+            var movie = new Movie()
+            {
+                Name = _data["title"] + "",
+                Tagline = _data["tagline"] + "",
+                Overview = _data["overview"] + "",
+                ReleaseDate = string.IsNullOrEmpty(_data["release_date"] + "")
+                    ? (DateTime?)null
+                    : DateTime.Parse(_data["release_date"] + ""),
+                RunTime = string.IsNullOrEmpty(_data["runtime"] + "") ? 0 : Int32.Parse(_data["runtime"] + ""),
+                Budget = string.IsNullOrEmpty(_data["budget"] + "") ? 0 : Int64.Parse(_data["budget"] + ""),
+                Revenue = string.IsNullOrEmpty(_data["revenue"] + "") ? 0 : Int64.Parse(_data["revenue"] + ""),
+                TmdbId = string.IsNullOrEmpty(_data["id"] + "") ? 0 : Int32.Parse(_data["id"] + ""),
+                ImdbId = _data["imdb_id"] + "",
+                TmdbPosterPath = _data["poster_path"] + "",
+                TmdbBackdropPath = _data["backdrop_path"] + "",
+                Status = _data["status"] + "",
+                DateUpdated = DateTime.UtcNow,
+                MovieGenres = GetMovieGenres()
+            };
+
+            return movie;
+        }
 
         public Movie CreateOrUpdateMovie(Movie movie)
         {

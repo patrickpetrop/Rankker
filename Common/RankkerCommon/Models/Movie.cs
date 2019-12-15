@@ -20,5 +20,7 @@ namespace RankkerCommon.Models
         public string Status { get; set; }
         public DateTime? DateUpdated { get; set; }
 
+        public List<MovieGenre> MovieGenres { get; set; } = new List<MovieGenre>();
+
     }
 }

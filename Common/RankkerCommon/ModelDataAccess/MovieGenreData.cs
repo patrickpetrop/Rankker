@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using RankkerCommon.AutoMapper;
 using RankkerCommon.DataAccess;
+using RankkerCommon.DTOs;
 using RankkerCommon.Models;
 
 namespace RankkerCommon.ModelDataAccess
@@ -12,6 +15,8 @@ namespace RankkerCommon.ModelDataAccess
         {
             _sqlDataAccess = sqlDataAccess;
         }
+
+
 
         public List<MovieGenre> GetAllMovieGenres(string connectionString)
         {
@@ -29,6 +34,24 @@ namespace RankkerCommon.ModelDataAccess
             }
 
             return genres;
+        }
+
+        public async Task InsertMovieGenre(string connectionString, MovieGenre movieGenre)
+        {
+            var movieGenreDTO = AutoMapperConfiguration.Mapper.Map<MovieGenreDTO>(movieGenre);
+            try
+            {
+                _sqlDataAccess.StartTransaction(connectionString);
+
+                await _sqlDataAccess.SaveDataInTransactionAsync(StoredProcedures.MOVIEGENRE_INSERT, movieGenreDTO);
+
+                _sqlDataAccess.CommitTransaction();
+            }
+            catch
+            {
+                //TODO log error
+            }
+
         }
     }
 }

@@ -9,14 +9,14 @@ namespace RankkerCommon.TMDB
 {
     public class TmdbMovieService
     {
-        public static async Task<TmdbMovieParser> GetMovieByTmdbId(int tmdbId, string apikey)
+        public static async Task<Movie> GetMovieByTmdbId(int tmdbId, string apikey)
         {
             var myUrl = "https://api.themoviedb.org/3/movie/" + tmdbId +
                         "?api_key=" + apikey;
             var client = new HttpClient();
             var data = await client.GetStringAsync(myUrl);
 
-            return new TmdbMovieParser(data);
+            return new TmdbMovieParser(data).GetMovie();
         }
 
         public static async Task<TmdbMovieCollectionParser> GetMovieCollectionByTmdbId(int collectionId, string apikey)
@@ -47,7 +47,7 @@ namespace RankkerCommon.TMDB
                     //TODO Check to ensure is TMDB when list is loaded from memory
                     genres.Add(new MovieGenre()
                     {
-                        SourceId = Int32.Parse(item["id"] + ""),
+                        Id = Int32.Parse(item["id"] + ""),
                         Name = item["name"] + ""
                     });
                 }

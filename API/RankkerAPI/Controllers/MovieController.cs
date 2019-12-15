@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,12 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using RankkerAPI.Helpers;
-using RankkerCommon.DataAccess;
+using RankkerCommon.AutoMapper;
+using RankkerCommon.DTOs;
 using RankkerCommon.ModelDataAccess;
 using RankkerCommon.Models;
-using RankkerCommon.TMDB;
 
 namespace RankkerAPI.Controllers
 {
@@ -47,6 +45,8 @@ namespace RankkerAPI.Controllers
         }
 
 
+
+
         [HttpGet]
         public async Task<IActionResult> CreateInitalMovie()
         {
@@ -65,7 +65,7 @@ namespace RankkerAPI.Controllers
 //            _logger.LogCritical("Here is critical error message from our values controller.");
 //            _logger.LogError("Here is error message from our values controller.");
 
-            var movie = new Movie()
+            var movie = new Movie
             {
                 Name = "TempName",
                 Tagline = "tag",
@@ -74,14 +74,17 @@ namespace RankkerAPI.Controllers
                 ImdbId = "tff",
                 TmdbPosterPath = "fdsa",
                 TmdbBackdropPath = "wesdfa",
-                Status = "eee"
+                Status = "eee",
+                DateUpdated = DateTime.UtcNow
             };
+
+            var temp = AutoMapperConfiguration.Mapper.Map<MovieDTO>(movie);
             
             using (IDbConnection connection = new SqlConnection(_connectionString))
             {
                 //Remove Dapper from RankkerAPI
                 var insertedId = connection.Query<int>("dbo.Movie_Insert",
-                    movie, commandType: CommandType.StoredProcedure).Single();
+                    temp, commandType: CommandType.StoredProcedure).Single();
             }
             
             return new OkObjectResult("Movie Created");

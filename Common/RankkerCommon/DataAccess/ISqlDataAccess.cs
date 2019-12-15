@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RankkerCommon.DataAccess
 {
@@ -7,7 +8,7 @@ namespace RankkerCommon.DataAccess
     {
         void StartTransaction(string connectionString);
         List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters);
-        void SaveDataInTransaction<T>(string storedProcedure, T parameters);
+        Task SaveDataInTransactionAsync<T>(string storedProcedure, T parameters);
         void CommitTransaction();
         void RollbackTransaction();
     }

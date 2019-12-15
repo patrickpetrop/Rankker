@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[MovieGenreRel]
 (
 	[MovieId] BIGINT NOT NULL,
-	[MovieGenreId] BIGINT NOT NULL,
+	[MovieGenreId] INT NOT NULL,
 	CONSTRAINT [moviegenrerel_movieid] UNIQUE NONCLUSTERED (
 		[MovieId], [MovieGenreId]
 	),
