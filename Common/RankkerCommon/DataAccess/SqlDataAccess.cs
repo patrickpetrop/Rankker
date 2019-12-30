@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using Dapper;
 
 namespace RankkerCommon.DataAccess
@@ -50,9 +51,9 @@ namespace RankkerCommon.DataAccess
             return rows;
         }
 
-        public void SaveDataInTransaction<T>(string storedProcedure, T parameters)
+        public async Task SaveDataInTransactionAsync<T>(string storedProcedure, T parameters)
         {
-            _connection.Execute(storedProcedure, parameters,
+            await _connection.ExecuteAsync(storedProcedure, parameters,
                     commandType: CommandType.StoredProcedure, transaction: _transaction);
         }
 

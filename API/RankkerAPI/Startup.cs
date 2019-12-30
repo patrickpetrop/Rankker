@@ -16,6 +16,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RankkerAPI.Models;
+using RankkerCommon.DataAccess;
+using RankkerCommon.ModelDataAccess;
 
 namespace RankkerAPI
 {
@@ -90,6 +92,11 @@ namespace RankkerAPI
                         Version = "v1"
                     });
             });
+
+
+            services.AddScoped<ISqlDataAccess, SqlDataAccess>();
+            services.AddScoped<IMovieData, MovieData>();
+            services.AddScoped<IMovieGenreData, MovieGenreData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
