@@ -8,6 +8,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using Rankker.Common.Tmdb.Imdb;
 using RankkerAPI.Helpers;
 using RankkerCommon.AutoMapper;
 using RankkerCommon.DataAccess;
@@ -47,6 +48,15 @@ namespace RankkerAPI.Controllers
 
             return Json(new {movie});
 
+        }
+
+        [HttpPut("imdbList/{imdbListId}")]
+        public async Task<IActionResult> PopulateImdbList(string imdbListId)
+        {
+            var imdbMovieList = new ImdbMovieList(imdbListId);
+            await imdbMovieList.GetListOfMovies();
+
+            return Json(new {imdbMovieList.MovieList, imdbMovieList.ListSize});
         }
 
         [HttpGet("moviegenre")]
