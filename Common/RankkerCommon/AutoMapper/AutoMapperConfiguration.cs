@@ -7,6 +7,7 @@ namespace RankkerCommon.AutoMapper
 {
     public class AutoMapperConfiguration
     {
+        //https://stackoverflow.com/a/49456783
         private static readonly Lazy<IMapper> Lazy = new Lazy<IMapper>(() =>
         {
             var config = new MapperConfiguration(cfg => {
