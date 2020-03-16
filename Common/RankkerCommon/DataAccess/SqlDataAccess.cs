@@ -51,10 +51,24 @@ namespace RankkerCommon.DataAccess
             return rows;
         }
 
+        public async Task<SqlMapper.GridReader> LoadDataFromMultipleQuery<U>(string storedProcedure, U parameters)
+        {
+            return await _connection.QueryMultipleAsync(storedProcedure, parameters,
+                commandType: CommandType.StoredProcedure, transaction: _transaction);
+        }
+        
         public async Task SaveDataInTransactionAsync<T>(string storedProcedure, T parameters)
         {
             await _connection.ExecuteAsync(storedProcedure, parameters,
                     commandType: CommandType.StoredProcedure, transaction: _transaction);
+        }
+
+        public async Task<int> InsertSingleAndReturnId<T>(string storedProcedure, T parameters)
+        {
+            var insertedId = (await _connection.QueryAsync<int>(storedProcedure,
+                parameters, commandType: CommandType.StoredProcedure, transaction: _transaction)).Single();
+
+            return insertedId;
         }
 
         private bool isClosed = false;
