@@ -73,6 +73,8 @@
     <Build Include="dbo\Stored Procedures\Movie_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\MovieGenre_Insert.sql" />
     <Build Include="dbo\Stored Procedures\MovieGenre_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\MovieGenreRel_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Movie_GetByTmdbId_WithGenres.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="RankkerData.refactorlog" />

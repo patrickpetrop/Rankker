@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
@@ -26,13 +27,17 @@ namespace RankkerAPI.Controllers
 
         private readonly ILogger<PopulateController> _logger;
         private readonly IMovieGenreData _movieGenreData;
+        private readonly IMovieData _movieData;
         private readonly string _tmdbApiKey;
         private readonly string _connectionString;
+        
 
-        public PopulateController(IConfiguration configuration, ILogger<PopulateController> logger, IMovieGenreData movieGenreData)
+        public PopulateController(IConfiguration configuration, 
+            ILogger<PopulateController> logger, IMovieGenreData movieGenreData, IMovieData movieData)
         {
             _logger = logger;
             _movieGenreData = movieGenreData;
+            _movieData = movieData;
             _tmdbApiKey = GetConfigurationValues.GetTmdbApiKey(configuration);
             _connectionString = GetConfigurationValues.GetConnectionString(configuration);
         }
@@ -44,10 +49,20 @@ namespace RankkerAPI.Controllers
 
             var movie = await TmdbMovieService.GetMovieByTmdbId(tmdbMovieId, _tmdbApiKey);
 
+            movie = await _movieData.InsertMovieAndGenres(_connectionString, movie);
+
             var movieDto = AutoMapperConfiguration.Mapper.Map<MovieDTO>(movie);
 
             return Json(new {movie});
 
+        }
+
+        [HttpGet("movie/{tmdbMovieId}")]
+        public async Task<IActionResult> GetMovieAndGenres(int tmdbMovieId)
+        {
+            var movie = await _movieData.GetMovieAndGenresById(_connectionString, tmdbMovieId);
+
+            return Json(new { movie });
         }
 
         [HttpPut("imdbList/{imdbListId}")]
